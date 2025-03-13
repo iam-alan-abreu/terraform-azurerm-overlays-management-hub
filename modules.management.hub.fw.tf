@@ -25,6 +25,7 @@ module "firewall_client_snet" {
   }
 
   # Subnet Information
+  nat_gateway = var.firewall_subnet_nat_gateway
   address_prefixes  = var.firewall_subnet_address_prefix
   service_endpoints = var.firewall_snet_service_endpoints
   # Applicable to the subnets which used for Private link endpoints or services
@@ -152,13 +153,16 @@ module "hub_fw" {
   firewall_zones      = var.firewall_zones != null ? var.firewall_zones : null
   
   # Firewall Subnet
-  firewall_ip_configuration = [
+firewall_ip_configuration = concat(
+  [
     {
       name                 = lower("${local.hub_firewall_name}-ipconfig")
       subnet_id            = module.firewall_client_snet[0].resource_id
       public_ip_address_id = module.hub_firewall_client_pip[0].public_ip_id
     }
-  ]
+  ],
+  var.firewall_ip_configuration_adtionals
+)
 
   # Management IP Configuration
   firewall_management_ip_configuration = var.enable_forced_tunneling ? {
