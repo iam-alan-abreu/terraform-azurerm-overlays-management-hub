@@ -25,7 +25,7 @@ module "firewall_client_snet" {
   }
 
   # Subnet Information
-  nat_gateway = var.firewall_subnet_nat_gateway
+  nat_gateway = var.firewall_subnet_nat_gateway_id
   address_prefixes  = var.firewall_subnet_address_prefix
   service_endpoints = var.firewall_snet_service_endpoints
   # Applicable to the subnets which used for Private link endpoints or services
