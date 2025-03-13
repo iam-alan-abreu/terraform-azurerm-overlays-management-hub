@@ -161,7 +161,7 @@ firewall_ip_configuration = concat(
       public_ip_address_id = module.hub_firewall_client_pip[0].public_ip_id
     }
   ],
-  var.firewall_ip_configuration_adtionals
+  var.firewall_ip_configuration_additional
 )
 
   # Management IP Configuration
