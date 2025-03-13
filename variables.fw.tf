@@ -29,6 +29,11 @@ variable "firewall_management_snet_address_prefix" {
   default     = null
 }
 
+variable "firewall_subnet_nat_gateway_id" {
+  description = "The address prefix to use for the gateway subnet"
+  default     = null
+}
+
 variable "firewall_snet_service_endpoints" {
   description = "Service endpoints to add to the firewall client subnet"
   type        = list(string)
