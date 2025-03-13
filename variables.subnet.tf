@@ -47,11 +47,6 @@ variable "hub_subnets" {
 }
 
 
-variable "firewall_subnet_nat_gateway_id" {
-  description = "The address prefix to use for the gateway subnet"
-  default     = null
-}
-
 variable "gateway_subnet_address_prefix" {
   description = "The address prefix to use for the gateway subnet"
   default     = null
