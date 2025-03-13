@@ -29,6 +29,7 @@ module "gw_snet" {
   # Subnet Information
   address_prefixes                              = var.gateway_subnet_address_prefix
   service_endpoints                             = var.gateway_service_endpoints
+
   private_endpoint_network_policies             = var.gateway_private_endpoint_network_policies_enabled
   private_link_service_network_policies_enabled = var.gateway_private_link_service_network_policies_enabled
 }
@@ -50,6 +51,7 @@ module "default_snet" {
   # Subnet Information
   address_prefixes  = each.value.address_prefixes
   service_endpoints = lookup(each.value, "service_endpoints", [])
+  delegation =  each.value.delegation
   # Applicable to the subnets which used for Private link endpoints or services
   private_endpoint_network_policies             = lookup(each.value, "private_endpoint_network_policies_enabled", null)
   private_link_service_network_policies_enabled = lookup(each.value, "private_link_service_network_policies_enabled", null)
