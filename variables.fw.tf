@@ -43,6 +43,16 @@ variable "firewall_snet_service_endpoints" {
   ]
 }
 
+variable "firewall_ip_configuration_additional" {
+  type    = list(object({
+    name                 = string
+    subnet_id            = string
+    public_ip_address_id = string
+  }))
+  default = []
+}
+
+
 variable "firewall_snet_private_endpoint_network_policies_enabled" {
   description = "Controls if network policies are enabled on the firewall client subnet"
   type        = string
