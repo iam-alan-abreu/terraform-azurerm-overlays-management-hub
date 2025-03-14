@@ -51,8 +51,8 @@ variable "firewall_snet_service_endpoints" {
 variable "firewall_ip_configuration_additional" {
   type    = list(object({
     name                 = string
-    subnet_id            = string
-    public_ip_address_id = string
+    subnet_id            = optional(string, null)
+    public_ip_address_id = optional(string, null)
   }))
   default = []
 }
