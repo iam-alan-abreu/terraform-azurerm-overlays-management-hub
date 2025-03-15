@@ -31,7 +31,7 @@ AUTHOR/S: jrspinella
     },
     force_internet_tunneling = var.enable_firewall && var.enable_forced_tunneling ? {
       name                   = lower(format("route-to-firewall-%s", local.hub_vnet_name))
-      address_prefix         = "0.0.0.0/0"
+      address_prefix         = var.ip_cidr_tunneling == null ? "0.0.0.0/0" : var.ip_cidr_tunneling
       next_hop_type          = "VirtualAppliance"
       next_hop_in_ip_address = module.hub_fw[0].resource.ip_configuration[0].private_ip_address
     } : null,
