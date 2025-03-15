@@ -20,3 +20,10 @@ variable "disable_bgp_route_propagation" {
   description = "Whether to disable the default BGP route propagation on the subnet. Defaults to true."
   default     = true
 }
+
+variable "ip_cidr_tunneling" {
+  description = "Whether to disable the default BGP route propagation on the subnet. Defaults to true."
+  default     = null
+}
+
+
