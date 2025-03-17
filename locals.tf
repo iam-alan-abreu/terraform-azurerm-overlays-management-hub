@@ -35,4 +35,10 @@ locals {
       "privatelink.blob.core.usgovcloudapi.net", "privatelink.table.core.usgovcloudapi.net", "privatelink.queue.core.usgovcloudapi.net", "privatelink.file.core.usgovcloudapi.net",
       "privatelink.dfs.core.usgovcloudapi.net", "privatelink.${var.location}.azmk8s.us", "privatelink.monitor.azure.us", "privatelink.adx.monitor.azure.us",
       "privatelink.oms.opinsights.azure.us", "privatelink.ods.opinsights.azure.us", "privatelink.agentsvc.azure-automation.us"] : null))
+
+route_table_subnets = {
+    for key, subnet in var.hub_subnets :
+    key => subnet
+    if !contains(var.excluded_route_table_subnets, key)
+  }
 }
