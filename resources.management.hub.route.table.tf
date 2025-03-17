@@ -94,8 +94,15 @@ resource "azurerm_route_table" "routetable" {
   tags                          = merge({ "ResourceName" = "route-network-outbound" }, local.default_tags, var.add_tags, )
 }
 
+# resource "azurerm_subnet_route_table_association" "rtassoc" {
+#  for_each       = var.hub_subnets
+#  subnet_id      = module.default_snet[each.key].resource_id
+#  route_table_id = azurerm_route_table.routetable.id
+#}
+
+# Associação de route table apenas para as subnets não excluídas
 resource "azurerm_subnet_route_table_association" "rtassoc" {
-  for_each       = var.hub_subnets
+  for_each       = local.route_table_subnets
   subnet_id      = module.default_snet[each.key].resource_id
   route_table_id = azurerm_route_table.routetable.id
 }
