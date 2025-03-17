@@ -25,12 +25,3 @@ variable "ip_cidr_tunneling" {
   description = "Whether to disable the default BGP route propagation on the subnet. Defaults to true."
   default     = null
 }
-
-# Variável para especificar quais subnets devem ser excluídas da associação com a route table
-variable "excluded_route_table_subnets" {
-  description = "Lista de nomes de subnets para excluir da associação com a route table"
-  type        = list(string)
-  default     = []
-}
-
-
