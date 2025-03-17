@@ -94,11 +94,18 @@ resource "azurerm_route_table" "routetable" {
   tags                          = merge({ "ResourceName" = "route-network-outbound" }, local.default_tags, var.add_tags, )
 }
 
+# resource "azurerm_subnet_route_table_association" "rtassoc" {
+#  for_each       = var.hub_subnets
+#  subnet_id      = module.default_snet[each.key].resource_id
+#  route_table_id = azurerm_route_table.routetable.id
+# }
+
 resource "azurerm_subnet_route_table_association" "rtassoc" {
- for_each       = var.hub_subnets
- subnet_id      = module.default_snet[each.key].resource_id
- route_table_id = azurerm_route_table.routetable.id
+  for_each = { for k, v in var.hub_subnets : k => v if k != var.excluded_subnet }
+  subnet_id      = module.default_snet[each.key].resource_id
+  route_table_id = azurerm_route_table.routetable.id
 }
+
 
 resource "azurerm_route" "force_internet_tunneling" {
   name                   = lower(format("route-to-firewall-%s", local.hub_vnet_name))

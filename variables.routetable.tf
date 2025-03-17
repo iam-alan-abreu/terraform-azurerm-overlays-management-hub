@@ -25,3 +25,9 @@ variable "ip_cidr_tunneling" {
   description = "Whether to disable the default BGP route propagation on the subnet. Defaults to true."
   default     = null
 }
+
+
+variable "excluded_subnet" {
+  type    = string
+  default = "appgw" # Defina aqui qual subnet deve ser excluída
+}
