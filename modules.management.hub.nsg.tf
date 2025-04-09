@@ -22,10 +22,27 @@ module "nsg" {
   security_rules =  each.value.nsg_subnet_rules 
 }
 
+# resource "azurerm_subnet_network_security_group_association" "nsgassoc" {
+ # for_each                  = var.hub_subnets
+ # subnet_id                 = module.default_snet[each.key].resource_id
+ # network_security_group_id = module.nsg[each.key].resource_id
+# }
+
 resource "azurerm_subnet_network_security_group_association" "nsgassoc" {
-  for_each                  = var.hub_subnets
+  for_each = {
+    for k in sort(keys(var.hub_subnets)) : k => var.hub_subnets[k]
+  }
   subnet_id                 = module.default_snet[each.key].resource_id
   network_security_group_id = module.nsg[each.key].resource_id
+  
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  depends_on = [
+    module.default_snet,
+    module.nsg
+  ]
 }
 
 
