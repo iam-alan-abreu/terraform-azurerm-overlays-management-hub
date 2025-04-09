@@ -100,10 +100,23 @@ resource "azurerm_route_table" "routetable" {
 #  route_table_id = azurerm_route_table.routetable.id
 # }
 
+# resource "azurerm_subnet_route_table_association" "rtassoc" {
+#  for_each = { for k, v in var.hub_subnets : k => v if k != var.excluded_subnet }
+#  subnet_id      = module.default_snet[each.key].resource_id
+#  route_table_id = azurerm_route_table.routetable.id
+# }
+
 resource "azurerm_subnet_route_table_association" "rtassoc" {
-  for_each = { for k, v in var.hub_subnets : k => v if k != var.excluded_subnet }
-  subnet_id      = module.default_snet[each.key].resource_id
-  route_table_id = azurerm_route_table.routetable.id
+  for_each = {
+    for k in sort(keys({ for k, v in var.hub_subnets : k => v if k != var.excluded_subnet })) : k => var.hub_subnets[k]}
+    subnet_id      = module.default_snet[each.key].resource_id
+    route_table_id = azurerm_route_table.routetable.id
+
+    lifecycle {
+    create_before_destroy = true
+  }
+
+  depends_on = [azurerm_route_table.routetable]
 }
 
 
