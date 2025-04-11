@@ -55,4 +55,12 @@ module "default_snet" {
   # Applicable to the subnets which used for Private link endpoints or services
   private_endpoint_network_policies             = lookup(each.value, "private_endpoint_network_policies_enabled", null)
   private_link_service_network_policies_enabled = lookup(each.value, "private_link_service_network_policies_enabled", null)
+
+ # Tell Terraform to ignore NSG and route table changes
+  lifecycle {
+    ignore_changes = [
+      network_security_group,
+      route_table
+    ]
+  }
 }
